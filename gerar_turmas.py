@@ -1,26 +1,7 @@
-import tabula
 import pandas as pd
-import pymongo
 
+df = pd.read_excel (r'C:\Users\Windows\Downloads\turmas_e_docentes_2021_02.xlsx', header=None)
 
-def insert_into_db(df):
-  for index, row in df.iterrows():
-    data = {
-      'cod_turma': row['CÓDIGO DE\rTURMA'],
-      'turma': row['TURMA'],
-      'teoria': row['SISTEMA'],
-      'pratica': row['TEORIA'],
-      'campus': row['Campus'],
-      'turno': row['turno'],
-      't_p_i': row['t-p-i'],
-      'prof_teoria': row['DOCENTE TEORIA'],
-      'prof_pratica': row['DOCENTE PRÁTICA']
-    }
-    print(row['SISTEMA'],
-      "\n")
+df.columns = ['CURSO', 'CÓDIGO DE TURMA', 'TURMA', 'SISTEMA', 'TEORIA', 'Campus', 'turno', 't­p­i', 'DOCENTE TEORIA', 'DOCENTE PRÁTICA']
 
-turmas_df = tabula.read_pdf("https://prograd.ufabc.edu.br/pdf/ajuste_2021.2_turmas_ofertadas.pdf", pages='all')
-
-resultado = pd.concat(turmas_df)
-
-insert_into_db(resultado)
+df1 = df[['CÓDIGO DE TURMA', 'TURMA', 'SISTEMA', 'TEORIA', 'Campus', 'turno', 't­p­i', 'DOCENTE TEORIA', 'DOCENTE PRÁTICA']]
