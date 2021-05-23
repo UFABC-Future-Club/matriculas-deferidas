@@ -31,7 +31,7 @@ def insert_into_db(df1):
       'prof_teoria': row['DOCENTE TEORIA'],
       'prof_pratica': row['DOCENTE PRÁTICA']
     }
-    print(row['CÓDIGO DE TURMA'], '\n\n')
+    print(row['CÓDIGO DE TURMA'], '\n')
 
 insert_into_db(df1)
 
