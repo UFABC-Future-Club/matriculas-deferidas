@@ -1,17 +1,8 @@
 import pandas as pd
-from os.path import join, dirname
-import os
-from dotenv import load_dotenv
 import pymongo
+import settings.mongo_client
 
-# dotenv_path = join(dirname(__file__), '.env')
-# load_dotenv(dotenv_path)
-
-# DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
-
-# mongo_client = pymongo.MongoClient("mongodb+srv://root:" + DATABASE_PASSWORD + "@cluster0.hx5zk.mongodb.net/")
-# mongo_db = mongo_client['app']
-# mongo_col = mongo_db['matriculas']
+mongo_col = settings.mongo_client.mongo_col
 
 df = pd.read_excel('./assets/turmas_e_docentes_2021_02.xlsx', header=None)
 
@@ -21,21 +12,19 @@ df1 = df[['CÓDIGO DE TURMA', 'TURMA', 'TEORIA', 'PRÁTICA', 'TURNO', 'T-P-I', '
 
 def insert_into_db(df1):
   for index, row in df1.iterrows():
+    
+    cod_turma = str(row['CÓDIGO DE TURMA']).replace('\xad', '-')
+
     data = {
-      'cod_turma': str(row['CÓDIGO DE TURMA']).replace('\xad', '-'),
-      'turma': str(row['TURMA']).replace('\xad', '-'),
       'teoria': str(row['TEORIA']).replace('\xad', '-'),
       'pratica': str(row['PRÁTICA']).replace('\xad', '-'),
       'turno': str(row['TURNO']).replace('\xad', '-'),
-      't_p_i': str(row['T-P-I']).replace('\xad', '-'),
+      'tpi': str(row['T-P-I']).replace('\xad', '-'),
       'prof_teoria': str(row['DOCENTE TEORIA']).replace('\xad', '-'),
       'prof_pratica': str(row['DOCENTE PRÁTICA']).replace('\xad', '-')
     }
-    print(data)
+    x = mongo_col.update_many({"cod_turma": cod_turma}, {"$set": data}, upsert=True, array_filters=None)
+    print('atualizando:', cod_turma, index)
 
 
 insert_into_db(df1)
-
-#     x = mongo_col.insert_one(data)
-
-# x = mongo_col.update_many({}, {"$set": {"new_field": "value"}}, upsert=False, array_filters=None)
