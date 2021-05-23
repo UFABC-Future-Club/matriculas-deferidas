@@ -5,3 +5,5 @@ dnspython
 python-dotenv
 xlrd
 openpyxl
+fastapi
+uvicorn
