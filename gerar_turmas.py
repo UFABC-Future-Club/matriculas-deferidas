@@ -1,26 +1,40 @@
-import tabula
 import pandas as pd
+from os.path import join, dirname
+import os
+from dotenv import load_dotenv
 import pymongo
 
+# dotenv_path = join(dirname(__file__), '.env')
+# load_dotenv(dotenv_path)
 
-def insert_into_db(df):
-  for index, row in df.iterrows():
+# DATABASE_PASSWORD = os.environ.get("DATABASE_PASSWORD")
+
+# mongo_client = pymongo.MongoClient("mongodb+srv://root:" + DATABASE_PASSWORD + "@cluster0.hx5zk.mongodb.net/")
+# mongo_db = mongo_client['app']
+# mongo_col = mongo_db['matriculas']
+
+df = pd.read_excel (r'C:\Users\Windows\Downloads\turmas_e_docentes_2021_02.xlsx', header=None)
+
+df.columns = ['CURSO', 'CÓDIGO DE TURMA', 'TURMA', 'TEORIA', 'PRÁTICA', 'Campus', 'TURNO', 'T-P-I', 'DOCENTE TEORIA', 'DOCENTE PRÁTICA']
+
+df1 = df[['CÓDIGO DE TURMA', 'TURMA', 'TEORIA', 'PRÁTICA', 'TURNO', 'T-P-I', 'DOCENTE TEORIA', 'DOCENTE PRÁTICA']]
+
+def insert_into_db(df1):
+  for index, row in df1.iterrows():
     data = {
-      'cod_turma': row['CÓDIGO DE\rTURMA'],
+      'cod_turma': row['CÓDIGO DE TURMA'],
       'turma': row['TURMA'],
-      'teoria': row['SISTEMA'],
-      'pratica': row['TEORIA'],
-      'campus': row['Campus'],
-      'turno': row['turno'],
-      't_p_i': row['t-p-i'],
+      'teoria': row['TEORIA'],
+      'pratica': row['PRÁTICA'],
+      'turno': row['TURNO'],
+      't_p_i': row['T-P-I'],
       'prof_teoria': row['DOCENTE TEORIA'],
       'prof_pratica': row['DOCENTE PRÁTICA']
     }
-    print(row['SISTEMA'],
-      "\n")
+    print(row['CÓDIGO DE TURMA'], '\n')
 
-turmas_df = tabula.read_pdf("https://prograd.ufabc.edu.br/pdf/ajuste_2021.2_turmas_ofertadas.pdf", pages='all')
+insert_into_db(df1)
 
-resultado = pd.concat(turmas_df)
+#     x = mongo_col.insert_one(data)
 
-insert_into_db(resultado)
+# x = mongo_col.update_many({}, {"$set": {"new_field": "value"}}, upsert=False, array_filters=None)
