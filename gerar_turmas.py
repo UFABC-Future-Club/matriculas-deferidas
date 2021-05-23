@@ -13,7 +13,7 @@ import pymongo
 # mongo_db = mongo_client['app']
 # mongo_col = mongo_db['matriculas']
 
-df = pd.read_excel (r'C:\Users\Windows\Downloads\turmas_e_docentes_2021_02.xlsx', header=None)
+df = pd.read_excel('./assets/turmas_e_docentes_2021_02.xlsx', header=None)
 
 df.columns = ['CURSO', 'CÓDIGO DE TURMA', 'TURMA', 'TEORIA', 'PRÁTICA', 'Campus', 'TURNO', 'T-P-I', 'DOCENTE TEORIA', 'DOCENTE PRÁTICA']
 
@@ -22,16 +22,17 @@ df1 = df[['CÓDIGO DE TURMA', 'TURMA', 'TEORIA', 'PRÁTICA', 'TURNO', 'T-P-I', '
 def insert_into_db(df1):
   for index, row in df1.iterrows():
     data = {
-      'cod_turma': row['CÓDIGO DE TURMA'],
-      'turma': row['TURMA'],
-      'teoria': row['TEORIA'],
-      'pratica': row['PRÁTICA'],
-      'turno': row['TURNO'],
-      't_p_i': row['T-P-I'],
-      'prof_teoria': row['DOCENTE TEORIA'],
-      'prof_pratica': row['DOCENTE PRÁTICA']
+      'cod_turma': str(row['CÓDIGO DE TURMA']).replace('\xad', '-'),
+      'turma': str(row['TURMA']).replace('\xad', '-'),
+      'teoria': str(row['TEORIA']).replace('\xad', '-'),
+      'pratica': str(row['PRÁTICA']).replace('\xad', '-'),
+      'turno': str(row['TURNO']).replace('\xad', '-'),
+      't_p_i': str(row['T-P-I']).replace('\xad', '-'),
+      'prof_teoria': str(row['DOCENTE TEORIA']).replace('\xad', '-'),
+      'prof_pratica': str(row['DOCENTE PRÁTICA']).replace('\xad', '-')
     }
-    print(row['CÓDIGO DE TURMA'], '\n')
+    print(data)
+
 
 insert_into_db(df1)
 

@@ -3,3 +3,5 @@ pandas
 pymongo
 dnspython
 python-dotenv
+xlrd
+openpyxl
