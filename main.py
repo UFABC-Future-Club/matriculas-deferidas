@@ -15,7 +15,8 @@ def listar_aulas(ra: int):
       'turma': data['turma'],
       'prof_pratica': data['prof_pratica'],
       'prof_teoria': data['prof_teoria'],
-      'teoria': data['teoria'],
+      'teoria': data['teoria'].split(' ; '),
+      'pratica': data['pratica'].split(' ; '), 
       'tpi' : data['tpi'],
       'turno' :data['turno']
     }
