@@ -1,6 +1,6 @@
 # API UFABC
 
-![Logo UFABC](docs/logo-ufabc.png)
+![Logo UFABC](docs/logo-ufabc-vertical.png)
 
 Essa API tem como objetivo prover informações relacionadas a Universidade Federal do ABC.
 
